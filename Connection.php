@@ -14,7 +14,7 @@ class Connection
             $this->pdo = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
             // set the PDO error mode to exception
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            echo "Connected successfully";
+            // echo "Connected successfully";
         } catch(PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
         }
@@ -41,6 +41,28 @@ class Connection
         $mysqlRequest = "DELETE FROM note WHERE id = :id";
         $statement = $this->pdo->prepare($mysqlRequest);
         $statement->bindValue('id', $id);
+        return $statement->execute();
+    }
+
+    public function getNoteByID($id) {
+        $mysqlRequest = "SELECT * FROM note where id = :id";
+        $statement = $this->pdo->prepare($mysqlRequest);
+        $statement->bindValue('id', $id);
+        $statement->execute();
+    
+        return $statement->fetch(PDO::FETCH_ASSOC) ?: [
+            'id' => '',
+            'title' => '',
+            'description' => ''
+        ];
+    }
+
+    public function updateNote($id, $note){
+        $mysqlRequest = "UPDATE note set title = :title, description = :description WHERE id = :id";
+        $statement = $this->pdo->prepare($mysqlRequest);
+        $statement->bindValue('id', $id);
+        $statement->bindValue('title', $note['title']);
+        $statement->bindValue('description', $note['description']);
         return $statement->execute();
     }
 }   
