@@ -1,6 +1,6 @@
 <?php
-
-$connection = require_once './Connection.php';
+define('FCPATH', dirname(__FILE__) . DIRECTORY_SEPARATOR);
+$connection = require_once './method/Connection.php';
 
 $notes = $connection->getNotes();
 
@@ -23,12 +23,13 @@ if(isset($_GET['id'])){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link rel="stylesheet" href="app.css">
+    <title>記事本 | CRUD練習</title>
+    <link rel="stylesheet" href="./scss/app.css">
+    <link rel="stylesheet" href="./scss/style.css">
 </head>
 <body>
 <div>
-    <form class="new-note" action="save.php" method="post">
+    <form class="new-note" action="./method/save.php" method="post">
         <input type="hidden" name="id" value="<?php echo $currentNote['id'] ?>">
         <input type="text" name="title" placeholder="Note title" autocomplete="off" value="<?php echo $currentNote['title'] ?>">
         <textarea name="description" cols="30" rows="4"
@@ -57,7 +58,7 @@ if(isset($_GET['id'])){
             <small>
               <?php echo $note['create_data']; ?>
             </small>
-            <form action="remove.php" method="post">
+            <form action="./method/remove.php" method="post">
               <input type="hidden" name="id" value="<?php echo $note['id']?>">
             <button class="close">X</button>
             </form>

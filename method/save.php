@@ -11,4 +11,4 @@ if($id){
 }
 
 // 轉址
-header('Location: index.php');
+header('Location: ../index.php');
